@@ -161,6 +161,49 @@ keys = [
     ),
     # Flameshot
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="Take a screenshot."),
+
+    Key(
+        [],
+        "XF86MonBrightnessUp",
+        lazy.spawn("~/.config/qtile/Scripts/bin/raise_xbl"),
+        desc="Brightness up",
+    ),
+    Key(
+        [],
+        "XF86MonBrightnessDown",
+        lazy.spawn("~/.config/qtile/Scripts/bin/lower_xbl"),
+        desc="Brightness down",
+    ),
+    Key(
+        [],
+        "XF86AudioRaiseVolume",
+        lazy.spawn("~/.config/qtile/Scripts/bin/raise_vol"),
+        desc="Raise volume",
+    ),
+    Key(
+        [],
+        "XF86AudioLowerVolume",
+        lazy.spawn("~/.config/qtile/Scripts/bin/lower_vol"),
+        desc="Lower volume",
+    ),
+    Key(
+        [],
+        "XF86AudioMute",
+        lazy.spawn("pactl set-sink-mute 0 toggle"),
+        desc="Mute/Unmute Volume",
+    ),
+    Key(
+        [mod],
+        "XF86AudioMute",
+        lazy.spawn("pactl set-source-mute 0 toggle"),
+        desc="Mute/Unmute Mic",
+    ),
+    Key(
+        [mod, "shift"],
+        "u",
+        lazy.spawn('/usr/bin/betterlockscreen -l --time-format "%I:%M %p"'),
+        desc="Lock",
+    ),
 ]
 
 # groups = [Group(i) for i in "123456789"]
