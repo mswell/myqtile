@@ -33,6 +33,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 # Programs
+# set your terminal
 terminal = "wezterm"
 web_browser = "brave"
 
@@ -141,6 +142,9 @@ keys = [
     Key(
         [mod, "shift"], "D", lazy.spawn("rofi -show drun"), desc="Launch an application"
     ),
+
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle Fullscreen"),
+    Key([mod, "shift"], "space", lazy.window.toggle_floating(), desc="Toggle Floating"),
     # Polybar Stuff
     Key([mod], "b", lazy.spawn("polybar main"), desc="Spawn Polybar."),
     Key([mod, "shift"], "b", lazy.spawn("pkill polybar"), desc="Kill Polybar."),
@@ -283,8 +287,22 @@ layouts = [
     layout.MonadTall(
         margin=window_gap_size,
         border_width=2,
-        border_normal=catppuccin["Black"],
-        border_focus=catppuccin["Mauve"],
+        border_normal=catppuccin["Crust"],
+        border_focus=catppuccin["Lavender"],
+    ),
+    layout.VerticalTile(
+        border_focus=catppuccin["Lavender"],
+        border_normal=catppuccin["Crust"],
+        border_width=2,
+        margin=4,
+        # margin_on_single=False,
+    ),
+    layout.Columns(
+        border_focus=catppuccin["Lavender"],
+        border_normal=catppuccin["Crust"],
+        border_width=2,
+        margin=4,
+        margin_on_single=False,
     ),
 ]
 
@@ -436,7 +454,10 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ]
+    ],
+    border_width=2,
+    border_focus=catppuccin["Lavender"],
+    border_normal=catppuccin["Crust"],
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
