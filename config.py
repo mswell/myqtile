@@ -45,7 +45,7 @@ bar_padding = 20
 part_padding = 22
 bar_top_height = 28
 bar_bottom_height = 28
-window_gap_size = 15
+window_gap_size = 10
 
 # Presets: , , ██, ░▒▓▓▒░, 
 bar_left = ""
