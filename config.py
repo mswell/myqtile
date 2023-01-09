@@ -35,7 +35,7 @@ from libqtile.utils import guess_terminal
 # Programs
 # set your terminal
 terminal = "wezterm"
-web_browser = "brave"
+web_browser = "google-chrome-stable"
 
 # Quick Settings
 default_font = "JetBrainsMono Nerd Font"
@@ -152,7 +152,7 @@ keys = [
     Key(
         [mod, "control"],
         "p",
-        lazy.spawn("picom -b --config ~/.config/picom.conf"),
+        lazy.spawn("picom -b --config ~/.config/qtile/Scripts/picom.conf"),
         desc="Start Picom.",
     ),
     Key([mod, "shift"], "p", lazy.spawn("pkill picom"), desc="Stop Picom."),
@@ -361,7 +361,6 @@ screens = [
                     foreground=catppuccin["Lavender"],
                 ),
                 widget.CurrentLayoutIcon(
-                    custom_icon_paths=[os.path.expanduser("~/.config/qtile/Icons")],
                     scale=0.7,
                     background=catppuccin["Lavender"],
                 ),
