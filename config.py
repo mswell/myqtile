@@ -86,6 +86,7 @@ catppuccin = {
     "Base": "#1e1e2e",
     "Mantle": "#181825",
     "Crust": "#11111b",
+    "White": "#d9e0ee",
 }
 mod = "mod4"
 # terminal = guess_terminal()
@@ -212,75 +213,143 @@ keys = [
 
 # groups = [Group(i) for i in "123456789"]
 
-groups = [
-    Group(
-        "1",
-        label="",
-        matches=[Match(wm_class="brave")],
-        layout="max",
-    ),
-    Group(
-        "2",
-        label="",
-        layout="tile",
-    ),
-    Group(
-        "3",
-        label="",
-        layout="tile",
-    ),
-    Group(
-        "4",
-        label="",
-        layout="tile",
-    ),
-    Group(
-        "5",
-        label="",
-        layout="tile",
-    ),
-    Group(
-        "6",
-        label="",
-        layout="tile",
-    ),
-    Group(
-        "7",
-        label="",
-        layout="tile",
-    ),
-    Group(
-        "8",
-        label="",
-        layout="Tile",
-    ),
-    Group(
-        "9",
-        label="",
-        matches=[Match(wm_class="discord")],
-        layout="max",
-    ),
-]
+groups = [Group(i) for i in ["", "", "", "", "阮", "", "", "", ""]]
+group_hotkeys = "123456789"
 
-for i in groups:
+for g, k in zip(groups, group_hotkeys):
     keys.extend(
         [
             # mod1 + letter of group = switch to group
             Key(
                 [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
+                k,
+                lazy.group[g.name].toscreen(),
+                desc=f"Switch to group {g.name}",
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
                 [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
+                k,
+                lazy.window.togroup(g.name, switch_group=False),
+                desc=f"Switch to & move focused window to group {g.name}",
             ),
+            # Or, use below if you prefer not to switch to that group.
+            # # mod1 + shift + letter of group = move focused window to group
+            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            #     desc="move focused window to group {}".format(i.name)),
         ]
     )
+
+widget_defaults = dict(
+    font="default_font",
+    fontsize=16,
+    padding=2,
+    forground=catppuccin["Black"],
+)
+extension_defaults = widget_defaults.copy()
+
+def get_widgets(primary=False):
+    widgets = [
+        widget.Spacer(
+            length=3,
+            background="#00000000",
+            ),
+        widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["Mauve"],
+            background="#00000000",
+            ),
+        widget.GroupBox(
+            highlight_method="line",
+            background=catppuccin["Mauve"],
+            highlight_color=[catppuccin["Mauve"], catppuccin["Mauve"]],
+            inactive=catppuccin["Black"],
+            ),
+        widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["Mauve"],
+            background="#00000000",
+            ),
+        widget.WindowName(
+            fontsize=12,
+            foreground=catppuccin["sky"]
+            ),
+         widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["sky"],
+            background="#00000000",
+            ),
+        widget.Volume(
+            fmt="墳 {}",
+            mute_command="amixer -D pulse set Master toggle",
+            foreground=catppuccin["Black"],
+            background=catppuccin["sky"],
+            ),
+        widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["sky"],
+            background="#00000000",
+            ),
+         widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["Peach"],
+            background="#00000000",
+            ),
+        widget.CPU(
+            format=" {load_percent:04}%",
+            foreground=catppuccin["Black"],
+            background=catppuccin["Peach"],
+            ),
+        widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["Peach"],
+            background="#00000000",
+            ),
+        widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["Maroon"],
+            background="#00000000",
+            ),
+        widget.Clock(
+                format=" %I:%M %p",
+            foreground=catppuccin["Black"],
+            background=catppuccin["Maroon"],
+            ),
+        widget.TextBox(
+            text="",
+            padding=0,
+            fontsize=30,
+            foreground=catppuccin["Maroon"],
+            background="#00000000",
+            ),
+            ]
+    if primary:
+        widgets.insert(10, widget.Systray())
+    return widgets
+
+screens = [
+    Screen(
+        top=bar.Bar(
+            get_widgets(primary=True),
+            22,
+            background="#00000000",
+        ),
+    ),
+]
 
 layouts = [
     layout.Max(),
@@ -306,123 +375,7 @@ layouts = [
     ),
 ]
 
-widget_defaults = dict(
-    font=default_font,
-    fontsize=12,
-    padding=3,
-)
 extension_defaults = widget_defaults.copy()
-
-screens = [
-    Screen(),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.TextBox(
-                    text="",
-                    padding=5,
-                    fontsize=17,
-                    foreground=catppuccin["Crust"],
-                    background=catppuccin["Blue"],
-                ),
-                widget.TextBox(
-                    text=bar_right,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Base"],
-                    foreground=catppuccin["Blue"],
-                ),
-                widget.GroupBox(
-                    highlight_method="text",
-                    this_current_screen_border=catppuccin["Green"],
-                    urgent_alert_method="text",
-                    urgent_text=catppuccin["Red"],
-                    background=catppuccin["Base"],
-                    active=catppuccin["Text"],
-                    inactive=catppuccin["Surface0"],
-                    fontsize=15,
-                    disable_drag=True,
-                ),
-                widget.TextBox(
-                    text=bar_right,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Surface0"],
-                    foreground=catppuccin["Base"],
-                ),
-                widget.WindowName(
-                    background=catppuccin["Surface0"],
-                ),
-                widget.TextBox(
-                    text=bar_left,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Surface0"],
-                    foreground=catppuccin["Lavender"],
-                ),
-                widget.CurrentLayoutIcon(
-                    scale=0.7,
-                    background=catppuccin["Lavender"],
-                ),
-                widget.TextBox(
-                    text=bar_left,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Lavender"],
-                    foreground=catppuccin["Sapphire"],
-                ),
-                widget.Clock(
-                    format="%I:%M %p",
-                    background=catppuccin["Sapphire"],
-                    foreground=catppuccin["Mantle"],
-                ),
-                widget.TextBox(
-                    text=bar_left,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Sapphire"],
-                    foreground=catppuccin["Base"],
-                ),
-                widget.Systray(
-                    background=catppuccin["Base"],
-                ),
-                widget.TextBox(
-                    text=bar_left,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Base"],
-                    foreground=catppuccin["Green"],
-                ),
-                widget.Clock(
-                    format="%a %Y-%m-%d",
-                    background=catppuccin["Green"],
-                    foreground=catppuccin["Mantle"],
-                ),
-                widget.TextBox(
-                    text=bar_left,
-                    padding=0,
-                    fontsize=22,
-                    background=catppuccin["Green"],
-                    foreground=catppuccin["Mantle"],
-                ),
-                widget.TextBox(
-                    text=" ",
-                    background=catppuccin["Mantle"],
-                    foreground=catppuccin["Red"],
-                    fontsize=15,
-                    mouse_callbacks={
-                        "Button1": lazy.spawn(
-                            os.path.expanduser("~/.config/qtile/power_menu.sh")
-                        ),
-                    },
-                ),
-            ],
-            24,
-            background=catppuccin["Base"],
-            foreground=catppuccin["Text"],
-        ),
-    ),
-]
 
 # Drag floating layouts.
 mouse = [
